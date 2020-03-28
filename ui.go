@@ -47,7 +47,7 @@ func addDialog(app tui.UI) tui.Widget {
 	canBtn := tui.NewButton("[ Cancel ]")
 	canBtn.OnActivated(func(b *tui.Button) {
 		app.SetWidget(views["main"])
-		tui.DefaultFocusChain.Set(tabOrder1...)
+		FocusChain.SetActiveSet("main")
 	})
 
 	fieldsBox := tui.NewVBox(
@@ -64,7 +64,7 @@ func addDialog(app tui.UI) tui.Widget {
 	)
 	vb.SetBorder(true)
 
-	tabOrder2 = []tui.Widget{ne, ue, pe, genBtn, saveBtn, canBtn}
+	FocusChain.Set("add", ne, ue, pe, genBtn, saveBtn, canBtn)
 
 	return vb
 }
@@ -148,7 +148,7 @@ func addButton(app tui.UI) tui.Widget {
 	addBtn := tui.NewButton("[ Add ]")
 	addBtn.OnActivated(func(b *tui.Button) {
 		app.SetWidget(views["add"])
-		tui.DefaultFocusChain.Set(tabOrder2...)
+		FocusChain.SetActiveSet("add")
 	})
 
 	tabOrder1 = append(tabOrder1, addBtn)

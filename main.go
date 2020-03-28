@@ -102,7 +102,9 @@ func main() {
 	}
 	mainWin := ui(app)
 
-	tui.DefaultFocusChain.Set(tabOrder1...)
+	FocusChain.Set("main", tabOrder1...)
+	FocusChain.SetActiveSet("main")
+	app.SetFocusChain(&FocusChain)
 
 	app.SetWidget(mainWin)
 	if err := app.Run(); err != nil {
