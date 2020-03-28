@@ -8,12 +8,16 @@ var (
 	detailFields map[string]*tui.Label
 	views        map[string]tui.Widget
 	mainTabOrder []tui.Widget
+
+	listBox *tui.List
 )
 
 func init() {
 	detailFields = make(map[string]*tui.Label)
 	views = make(map[string]tui.Widget)
 	mainTabOrder = make([]tui.Widget, 0, 0)
+
+	listBox = tui.NewList()
 
 }
 
@@ -47,7 +51,19 @@ func addDialog(app tui.UI) tui.Widget {
 
 	saveBtn := tui.NewButton("[ Save ]")
 	saveBtn.OnActivated(func(b *tui.Button) {
-		// implement later
+		defer func() {
+			FocusChain.SetActiveSet("main")
+			app.SetWidget(views["main"])
+		}()
+		if ne.Text() == "" {
+			return
+		}
+		passwords[ne.Text()] = Password{
+			Name:     ne.Text(),
+			URL:      ue.Text(),
+			Password: pe.Text(),
+		}
+		listBox.AddItems(ne.Text())
 	})
 
 	canBtn := tui.NewButton("[ Cancel ]")
@@ -111,10 +127,9 @@ func selectBox(app tui.UI) tui.Widget {
 		indx++
 	}
 
-	lb := tui.NewList()
-	lb.AddItems(n...)
+	listBox.AddItems(n...)
 
-	lb.OnSelectionChanged(func(l *tui.List) {
+	listBox.OnSelectionChanged(func(l *tui.List) {
 		item := l.SelectedItem()
 		if _, ok := passwords[item]; ok {
 			detailFields["name"].SetText(passwords[item].Name)
@@ -123,9 +138,9 @@ func selectBox(app tui.UI) tui.Widget {
 		}
 	})
 
-	mainTabOrder = append(mainTabOrder, lb)
+	mainTabOrder = append(mainTabOrder, listBox)
 
-	box := tui.NewVBox(lb)
+	box := tui.NewVBox(listBox)
 	box.SetBorder(true)
 	return box
 }
