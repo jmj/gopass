@@ -21,6 +21,10 @@ func init() {
 
 }
 
+type View interface {
+	GetWidget(string) tui.Widget
+}
+
 func ui(app tui.UI) tui.Widget {
 
 	mainWin := tui.NewGrid(0, 0)
