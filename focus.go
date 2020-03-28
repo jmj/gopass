@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/marcusolsson/tui-go"
 )
@@ -40,7 +39,6 @@ func (c *SwitchingFocusChain) Set(name string, ws ...tui.Widget) {
 }
 
 func (c *SwitchingFocusChain) FocusNext(current tui.Widget) tui.Widget {
-	log.Printf("FocusNext: %v\n", current)
 	for i, w := range c.widgets[c.activeSet] {
 		if w != current {
 			continue
@@ -72,7 +70,6 @@ func (c *SwitchingFocusChain) FocusPrev(current tui.Widget) tui.Widget {
 // FocusDefault returns the default widget for when there is no widget
 // currently focused.
 func (c *SwitchingFocusChain) FocusDefault() tui.Widget {
-	log.Printf("FocusDefault: %s\n", c.activeSet)
 	if len(c.widgets[c.activeSet]) == 0 {
 		return nil
 	}

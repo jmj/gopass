@@ -4,12 +4,17 @@ import (
 	"github.com/marcusolsson/tui-go"
 )
 
-var detailFields map[string]*tui.Label
-var views map[string]tui.Widget
+var (
+	detailFields map[string]*tui.Label
+	views        map[string]tui.Widget
+	mainTabOrder []tui.Widget
+)
 
 func init() {
 	detailFields = make(map[string]*tui.Label)
 	views = make(map[string]tui.Widget)
+	mainTabOrder = make([]tui.Widget, 0, 0)
+
 }
 
 func ui(app tui.UI) tui.Widget {
@@ -22,6 +27,7 @@ func ui(app tui.UI) tui.Widget {
 	mainWin.AppendRow(detailSelectBox(app))
 	mainWin.AppendRow(btnBox(app))
 	views["main"] = mainWin
+	FocusChain.Set("main", mainTabOrder...)
 
 	addWin := addDialog(app)
 	views["add"] = addWin
@@ -117,7 +123,7 @@ func selectBox(app tui.UI) tui.Widget {
 		}
 	})
 
-	tabOrder1 = append(tabOrder1, lb)
+	mainTabOrder = append(mainTabOrder, lb)
 
 	box := tui.NewVBox(lb)
 	box.SetBorder(true)
@@ -140,7 +146,7 @@ func quitButton(app tui.UI) tui.Widget {
 		app.Quit()
 	})
 
-	tabOrder1 = append(tabOrder1, quitBtn)
+	mainTabOrder = append(mainTabOrder, quitBtn)
 	return tui.NewPadder(1, 0, quitBtn)
 }
 
@@ -151,6 +157,6 @@ func addButton(app tui.UI) tui.Widget {
 		FocusChain.SetActiveSet("add")
 	})
 
-	tabOrder1 = append(tabOrder1, addBtn)
+	mainTabOrder = append(mainTabOrder, addBtn)
 	return tui.NewPadder(1, 0, addBtn)
 }

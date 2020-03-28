@@ -22,8 +22,6 @@ type Password struct {
 
 var (
 	passwords map[string]Password
-	tabOrder1 []tui.Widget
-	tabOrder2 []tui.Widget
 
 	passgen bool
 	print   string
@@ -31,8 +29,6 @@ var (
 
 func init() {
 	passwords = make(map[string]Password)
-	tabOrder1 = make([]tui.Widget, 0, 0)
-	tabOrder2 = make([]tui.Widget, 0, 0)
 }
 
 func cleanup(filename string) {
@@ -102,7 +98,6 @@ func main() {
 	}
 	mainWin := ui(app)
 
-	FocusChain.Set("main", tabOrder1...)
 	FocusChain.SetActiveSet("main")
 	app.SetFocusChain(&FocusChain)
 
