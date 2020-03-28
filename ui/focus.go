@@ -11,15 +11,10 @@ type SwitchingFocusChain struct {
 	activeSet string
 }
 
-var FocusChain SwitchingFocusChain
-
-func init() {
-	FocusChain = SwitchingFocusChain{
+func NewSwitchingFocusChain() *SwitchingFocusChain {
+	FocusChain := SwitchingFocusChain{
 		widgets: make(map[string][]tui.Widget),
 	}
-}
-
-func NewSwitchingFocusChain() *SwitchingFocusChain {
 	return &FocusChain
 }
 
